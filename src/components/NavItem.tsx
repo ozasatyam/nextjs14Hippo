@@ -1,3 +1,4 @@
+"use client";
 import React, { Component } from "react";
 import { Button } from "./ui/button";
 import { PRODUCT_CATEGORIES } from "@/config";
@@ -65,7 +66,7 @@ const NavItem = ({ category, isAnyOpen, handleOpen, isOpen }: NavItemProps) => (
                       {item.name}
                     </Link>
                     <p className="mt-1" aria-hidden="true">
-                      {item.name}
+                     Shop Now
                     </p>
                   </div>
                 ))}
