@@ -2,15 +2,17 @@
 
 import React from "react";
 import {
-    Sheet,
+  Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
 import { ShoppingCart } from "lucide-react";
+import { Separator } from "@radix-ui/react-separator";
 
 const Cart = () => {
+  const itemCount = 1;
   return (
     <Sheet>
       <SheetTrigger className="group -m-2 flex items-center p-2">
@@ -26,6 +28,29 @@ const Cart = () => {
         <SheetHeader className="spacey-2.5 pr-6">
           <SheetTitle> cart(0)</SheetTitle>
         </SheetHeader>
+        {itemCount > 0 ? (
+          <>
+            <div className="flex w-full flex-col pr-6">
+              {/* Cart items */}
+              Card Items
+            </div>
+            <div className="space-y-4 pr-6">
+              <Separator />
+              <div className="spacey-1.5 pr-6">
+                <div className="flex">
+                  <span className="flex-1">Shipping</span>
+                  <span className="">Free</span>
+                </div>
+                <div className="flex">
+                  <span className="flex-1">Transaction cost</span>
+                  <span className="">Free</span>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div></div>
+        )}
       </SheetContent>
     </Sheet>
   );
