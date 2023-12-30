@@ -9,7 +9,8 @@ export const Users: CollectionConfig = {
     },
     fields: [{
         name: "role",
-        admin: { condition: () => false },
+        defaultValue: "user",
+        required: true,
         type: "select",
         options: [
             { label: "Admin", value: "admin" },

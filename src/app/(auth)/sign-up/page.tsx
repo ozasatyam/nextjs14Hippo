@@ -22,9 +22,11 @@ function page() {
   } = useForm<TAuthCredntialValidator>({
     resolver: zodResolver(AuthCredntialValidator),
   });
-  const { data } = trpc.anyApiRouter.useQuery();
-  const onSubmit = ({ email, password }: TAuthCredntialValidator) => {};
-  console.log(data);
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({});
+  const onSubmit = ({ email, password }: TAuthCredntialValidator) => {
+    mutate({ email, password });
+  };
+
   return (
     <>
       <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
@@ -60,6 +62,7 @@ function page() {
                   <Label htmlFor="password">Email</Label>
                   <Input
                     {...register("password")}
+                    type="password"
                     className={cn({
                       "focus-visible:ring-red-500": errors.password,
                     })}
