@@ -51,6 +51,5 @@ export const getPayloadClient = async ({ initOptions }: Args = {}): Promise<Payl
         cached.promise = null
         throw e
     }
-    //just a commit
     return cached.client
 }
