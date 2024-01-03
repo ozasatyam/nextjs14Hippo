@@ -7,14 +7,12 @@ import { z } from "zod";
 export const authRouter = router({
     createPayloadUser: publicProcedure.input(AuthCredntialValidator).mutation(async ({ input }) => {
         const { email, password } = input
-        console.log(email)
         const payload = await getPayloadClient()
 
         const { docs: users } = await payload.find({
             collection: "users",
             where: { email: { equals: email } }
         })
-        console.log(users, "user")
         if (users.length !== 0)
             throw new TRPCError({ code: "CONFLICT" })
 
@@ -30,8 +28,16 @@ export const authRouter = router({
     }),
     verifyEmail: publicProcedure.
         input(z.object({ token: z.string() }))
-        .mutation(({ input }) => {
+        .query(async ({ input }) => {
             const { token } = input
-            token
+            const payload = await getPayloadClient()
+            const isVerified = await payload.verifyEmail({
+                collection: "users",
+                token
+            })
+            if (!isVerified) {
+                throw new TRPCError({ code: "UNAUTHORIZED" })
+            }
+            return { success: true }
         })
 })
