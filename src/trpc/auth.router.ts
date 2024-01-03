@@ -2,6 +2,7 @@ import { AuthCredntialValidator } from "../lib/validators/account-credentials-va
 import { publicProcedure, router } from "./trpc";
 import { getPayloadClient } from "../get-payload";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 export const authRouter = router({
     createPayloadUser: publicProcedure.input(AuthCredntialValidator).mutation(async ({ input }) => {
@@ -16,7 +17,7 @@ export const authRouter = router({
         console.log(users, "user")
         if (users.length !== 0)
             throw new TRPCError({ code: "CONFLICT" })
-        
+
         await payload.create({
             collection: "users",
             data: {
@@ -26,5 +27,11 @@ export const authRouter = router({
             }
         })
         return { success: true, sentToEmail: email }
-    })
+    }),
+    verifyEmail: publicProcedure.
+        input(z.object({ token: z.string() }))
+        .mutation(({ input }) => {
+            const { token } = input
+            token
+        })
 })
