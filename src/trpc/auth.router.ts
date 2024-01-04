@@ -39,5 +39,27 @@ export const authRouter = router({
                 throw new TRPCError({ code: "UNAUTHORIZED" })
             }
             return { success: true }
+        }),
+    signIn: publicProcedure.
+        input(AuthCredntialValidator)
+        .mutation(async ({ input, ctx }) => {
+            const { res } = ctx
+            const { email, password } = input
+            const payload = await getPayloadClient()
+            try {
+                await payload.login({
+                    collection: "users",
+                    data: {
+                        email,
+                        password
+                    },
+                    res,
+
+                })
+                return { success: true }
+            }
+            catch (err) {
+                throw new TRPCError({ code: "UNAUTHORIZED" })
+            }
         })
 })

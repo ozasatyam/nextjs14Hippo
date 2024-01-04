@@ -12,11 +12,21 @@ import { trpc } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 function page() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const isSeller = searchParams.get("as") === "seller";
+  const oririg = searchParams.get("origin");
+  const continueAsSell = () => {
+    router.push("?as=seller");
+  };
+  const continueAsBuyer = () => {
+    router.replace("/sign-in", undefined);
+  };
   const {
     register,
     formState: { errors },
@@ -26,27 +36,26 @@ function page() {
     resolver: zodResolver(AuthCredntialValidator),
   });
 
-  const router = useRouter();
-
-  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
+  const { mutate: singIn, isLoading } = trpc.auth.signIn.useMutation({
     onError: (err) => {
-      if (err.data?.code === "CONFLICT") {
-        toast.error("This email is already in used");
-        return;
-      }
-      if (err instanceof ZodError) {
-        toast.error(err.issues[0].message);
-        return;
-      }
-      toast.error("Something went wrong, Please try again");
+      toast.error("Invalid Username and Password");
     },
-    onSuccess: ({ sentToEmail }) => {
-      toast.success(`Verification email sent to ${sentToEmail}`);
-      router.push("/verify-email?to=" + sentToEmail);
+    onSuccess: () => {
+      toast.success(`Sign in successfully`);
+      router.refresh();
+      if (oririg) {
+        router.push(`/${origin}`);
+        return;
+      }
+      if (isSeller) {
+        router.push("/sell");
+        return;
+      }
+      router.push("/");
     },
   });
   const onSubmit = ({ email, password }: TAuthCredntialValidator) => {
-    mutate({ email, password });
+    singIn({ email, password });
   };
 
   return (
@@ -55,15 +64,17 @@ function page() {
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col items-center space-y-2 text-center">
             <Icons.logo className="h-20 w-20" />
-            <h1 className="text-2xl font-bold">Create an account</h1>
+            <h1 className="text-2xl font-bold">
+              Sign in to your {isSeller ? "saller" : ""} account
+            </h1>
             <Link
               className={buttonVariants({
                 variant: "link",
                 className: "gap-1.5",
               })}
-              href={"/sign-in"}
+              href={"/sign-up"}
             >
-              Already have an account? Sign-in
+              Don&apos;t have an account?
               <ArrowRight className="h-4 w-4"></ArrowRight>
             </Link>
           </div>
@@ -101,9 +112,36 @@ function page() {
                     </p>
                   )}
                 </div>
-                <Button>Sign Up</Button>
+                <Button>Sign in</Button>
               </div>
             </form>
+            <div className="relative">
+              <div aria-hidden className="absolute inset-0 flex items-center">
+                <span className="w-full border-t"></span>
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  or
+                </span>
+              </div>
+            </div>
+            {isSeller ? (
+              <Button
+                variant={"secondary"}
+                disabled={isLoading}
+                onClick={continueAsBuyer}
+              >
+                Continue as Customer
+              </Button>
+            ) : (
+              <Button
+                variant={"secondary"}
+                disabled={isLoading}
+                onClick={continueAsSell}
+              >
+                Continue as Seller
+              </Button>
+            )}
           </div>
         </div>
       </div>
