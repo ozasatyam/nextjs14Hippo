@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ZodError } from "zod";
-function page() {
+function Page() {
   const {
     register,
     formState: { errors },
@@ -111,4 +111,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

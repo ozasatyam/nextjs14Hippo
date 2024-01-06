@@ -15,8 +15,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { ZodError } from "zod";
-function page() {
+function Page() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const isSeller = searchParams.get("as") === "seller";
@@ -52,6 +51,7 @@ function page() {
         return;
       }
       router.push("/");
+      router.refresh();
     },
   });
   const onSubmit = ({ email, password }: TAuthCredntialValidator) => {
@@ -149,4 +149,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
