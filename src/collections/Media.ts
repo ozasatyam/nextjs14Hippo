@@ -37,6 +37,7 @@ export const Media: CollectionConfig = {
     admin: {
         hidden: ({ user }) => user.role !== "admin"
     },
+    //just for backup
     upload: {
         staticURL: "/media",
         staticDir: "media",
