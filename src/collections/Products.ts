@@ -109,7 +109,7 @@ export const Products: CollectionConfig = {
         },
         fields: [
             {
-                name: "iamge",
+                name: "image",
                 type: "upload",
                 relationTo: "media",
                 required: true
