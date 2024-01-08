@@ -63,7 +63,7 @@ export const Products: CollectionConfig = {
         defaultValue: "pending",
         options: [{
             label: "Pendning verification",
-            value: "pedning"
+            value: "pending"
         }, {
             label: "Approved",
             value: "approved"
