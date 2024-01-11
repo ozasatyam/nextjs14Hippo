@@ -34,7 +34,6 @@ const ProductListing = ({ index, product }: ProductListingProps) => {
     .map(({ image }) =>
       typeof image === "string" ? image : image?.url
     ) as string[];
-    //no break
 
   if (isVisible && product) {
     return (
