@@ -1,7 +1,9 @@
+import ImageSlider from "@/components/ImageSlider";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { PRODUCT_CATEGORIES } from "@/config";
 import { getPayloadClient } from "@/get-payload";
 import { formatPrice } from "@/lib/utils";
+import { Check } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -10,6 +12,7 @@ interface PageProps {
     productId: string;
   };
 }
+
 const BREADCRUMBS = [
   {
     id: 1,
@@ -39,6 +42,12 @@ async function page({ params }: PageProps) {
   });
 
   const [product] = products;
+
+  const validUrls = product.images
+    .filter(Boolean)
+    .map(({ image }) =>
+      typeof image === "string" ? image : image?.url
+    ) as string[];
 
   if (!product) return notFound();
 
@@ -92,7 +101,28 @@ async function page({ params }: PageProps) {
                   {label}
                 </div>
               </div>
+              <div className="mt-4 space-y-6">
+                <p className="text-base text-muted-foreground ">
+                  {product.description}
+                </p>
+              </div>
+              <div className="mt-6 flex items-center">
+                <Check
+                  aria-hidden="true"
+                  className="h-5 w-5 flex-shrink-0 text-green-500"
+                ></Check>
+                <p className="ml-2 text-sm text-muted-foreground">
+                  {" "}
+                  Eligible for instant Delivery
+                </p>
+              </div>
             </section>
+          </div>
+          {/*product iamges*/}
+          <div className="mt-10 lg:col-start-2 lg:row-start-2 lg:mt-0 lg:self-center">
+            <div className="aspect-square rounded-lg">
+              <ImageSlider urls={validUrls} />
+            </div>
           </div>
         </div>
       </div>
