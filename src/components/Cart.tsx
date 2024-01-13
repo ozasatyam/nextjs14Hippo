@@ -10,7 +10,7 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { ShoppingCart } from "lucide-react";
-import { Separator } from "@radix-ui/react-separator";
+
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
@@ -18,6 +18,7 @@ import Image from "next/image";
 import { useCart } from "@/hooks/use-cart";
 import { ScrollArea } from "./ui/scroll-area";
 import CartItem from "./CartItem";
+import { Separator } from "./ui/separator";
 
 const Cart = () => {
   const { items } = useCart();
@@ -55,7 +56,7 @@ const Cart = () => {
               Card Items
             </div>
             <div className="space-y-4 pr-6">
-              <Separator />
+              <Separator  />
               <div className="spacey-1.5 pr-6">
                 <div className="flex">
                   <span className="flex-1">Shipping</span>
