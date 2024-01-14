@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -22,7 +22,10 @@ import { Separator } from "./ui/separator";
 
 const Cart = () => {
   const { items } = useCart();
-
+  const [isMount, setIsMounted] = useState<boolean>(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const itemCount = items.length;
   const cartTotal = items.reduce(
     (total, { product }) => total + product.price,
@@ -38,7 +41,7 @@ const Cart = () => {
           className="h-6 w-6 flex-shrink text-gray-400 group-hover:text-gray-500"
         />
         <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-          {itemCount}
+          {isMount ? itemCount : 0}
         </span>
       </SheetTrigger>
       <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
@@ -56,7 +59,7 @@ const Cart = () => {
               Card Items
             </div>
             <div className="space-y-4 pr-6">
-              <Separator  />
+              <Separator />
               <div className="spacey-1.5 pr-6">
                 <div className="flex">
                   <span className="flex-1">Shipping</span>
