@@ -1,11 +1,15 @@
 import { PRODUCT_CATEGORIES } from "@/config";
 import { Product } from "@/payload-types";
-import { ImageIcon } from "lucide-react";
+import { ImageIcon, X } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import { Button } from "./ui/button";
+import { useCart } from "@/hooks/use-cart";
+import { formatPrice } from "@/lib/utils";
 
 function CartItem({ product }: { product: Product }) {
   const { image } = product.images[0];
+  const { removeItem } = useCart();
   const label = PRODUCT_CATEGORIES.find(
     ({ value }) => value === product.category
   )?.label;
@@ -37,7 +41,21 @@ function CartItem({ product }: { product: Product }) {
             <span className="line-clamp-1 text-sm capitalize text-muted-foreground">
               {label}
             </span>
+            <div className="mt-4 text-xs text-muted-foreground">
+              <button
+                className="flex items-center gap-0.5"
+                onClick={() => removeItem(product.id)}
+              >
+                {" "}
+                <X className="w-3 h-4" />
+              </button>
+            </div>
           </div>
+        </div>
+        <div className="flex flex-col space-y-1 font-medium">
+          <span className="ml-auto line-clamp-1 text-sm">
+            {formatPrice(product.price)}
+          </span>
         </div>
       </div>
     </div>
