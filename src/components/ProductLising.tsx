@@ -10,10 +10,9 @@ import ImageSlider from "./ImageSlider";
 interface ProductListingProps {
   product: Product | null;
   index: number;
-  key: string;
 }
 
-const ProductListing = ({ index, product, key }: ProductListingProps) => {
+const ProductListing = ({ index, product }: ProductListingProps) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
@@ -39,7 +38,6 @@ const ProductListing = ({ index, product, key }: ProductListingProps) => {
   if (isVisible && product) {
     return (
       <Link
-        key={key}
         className={cn("invisible h-full w-full cursor-pointer group/main", {
           "visible animate-in fade-in-5": isVisible,
         })}
