@@ -7,9 +7,8 @@ import { Check, Loader2, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { boolean } from "zod";
 
-function page() {
+function Page() {
   const { items, removeItem } = useCart();
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
@@ -26,7 +25,7 @@ function page() {
 
   return (
     <div className="bg-white">
-      <div className="mx-auto max-w-2xl px-4 pb-26 pt-16 sm:px-6 lg:max-w-7x1 lg:px-8">
+      <div className="mx-auto max-w-2xl px-4 pb-26 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           Shopping Cart
         </h1>
@@ -59,7 +58,7 @@ function page() {
             ) : null}
             <ul
               className={cn({
-                "divide-y divide-gray-200 border-t border-gray-200":
+                "divide-y divide-gray-200 border-t border-b border-gray-200":
                   isMounted && items.length > 0,
               })}
             >
@@ -133,7 +132,7 @@ function page() {
             <div className="mt-6 space-y-4">
               <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-600">Subtotal</p>
-                <p className="fext-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-gray-900">
                   {isMounted ? (
                     formatPrice(cartTotal)
                   ) : (
@@ -141,7 +140,7 @@ function page() {
                   )}
                 </p>
               </div>
-              <div className="flex items-center jsutify-center border-t border-gray-200 pt-4">
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <div className="flex items-center text-sm text-muted-foreground ">
                   <span>Flat Transaction Fee</span>
                 </div>
@@ -155,7 +154,7 @@ function page() {
                 </div>
               </div>
 
-              <div className="felx items-center justify-between border-t border-gray-200">
+              <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                 <div className="text-base font-medium text-gray-900">
                   Order Total
                 </div>
@@ -168,6 +167,11 @@ function page() {
                 </div>
               </div>
             </div>
+            <div className="mt-6">
+              <Button className="w-full" size="lg">
+                Checkout
+              </Button>
+            </div>
           </section>
         </div>
       </div>
@@ -175,4 +179,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
