@@ -20,17 +20,33 @@ export const Products: CollectionConfig = {
         beforeChange: [addUser, async (args) => {
             if (args.operation === "create") {
                 const data = args.data as Product
-
                 const createdProduct = await stripe.products.create({
                     name: data.name,
                     default_price_data: {
-                        currency: "USD",
+                        currency: "CAD",
                         unit_amount: Math.round(data.price * 100),
-
                     }
                 })
-            } else if (args.operation === "update") {
 
+                const updated: Product = {
+                    ...data,
+                    stripeId: createdProduct.id,
+                    priceId: createdProduct.default_price as string
+                }
+                return updated
+            } else if (args.operation === "update") {
+                const data = args.data as Product
+                const updatedProduct = await stripe.products.update(data.stripeId!, {
+                    name: data.name,
+                    default_price: data.priceId!
+                })
+
+                const updated: Product = {
+                    ...data,
+                    stripeId: updatedProduct.id,
+                    priceId: updatedProduct.default_price as string
+                }
+                return updated
             }
         }]
     },
@@ -55,7 +71,7 @@ export const Products: CollectionConfig = {
     },
     {
         name: "price",
-        label: "Price In USD",
+        label: "Price In CAD",
         min: 0,
         max: 1000,
         type: "number",
