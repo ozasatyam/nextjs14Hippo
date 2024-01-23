@@ -1,4 +1,4 @@
-"user client";
+"use client";
 import { trpc } from "@/trpc/client";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";

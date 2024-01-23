@@ -10,7 +10,7 @@ import { stripeWebhookHandler } from "./webhooks"
 import nextBuild from "next/dist/build"
 import path from "path"
 const app = express()
-const PORT = Number(process.env.PORT) || 3111
+const PORT = Number(process.env.PORT) || 3000
 const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({ req, res })
 
 export type ExpressContext = inferAsyncReturnType<typeof createContext>
@@ -39,6 +39,7 @@ const start = async () => {
             await nextBuild(path.join(__dirname, "../"))
             process.exit()
         })
+        return
     }
     app.use("/api/trpc", trpcExpress.createExpressMiddleware({
         router: appRouter,

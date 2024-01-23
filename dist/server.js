@@ -72,7 +72,7 @@ var webhooks_1 = require("./webhooks");
 var build_1 = __importDefault(require("next/dist/build"));
 var path_1 = __importDefault(require("path"));
 var app = (0, express_1.default)();
-var PORT = Number(process.env.PORT) || 3111;
+var PORT = Number(process.env.PORT) || 3000;
 var createContext = function (_a) {
     var req = _a.req, res = _a.res;
     return ({ req: req, res: res });
@@ -117,6 +117,7 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
                             }
                         });
                     }); });
+                    return [2 /*return*/];
                 }
                 app.use("/api/trpc", trpcExpress.createExpressMiddleware({
                     router: trpc_1.appRouter,
