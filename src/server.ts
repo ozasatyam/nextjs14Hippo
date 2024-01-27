@@ -46,7 +46,12 @@ const start = async () => {
         createContext
     }))
 
-    app.use((req, res) => nextHandler(req, res))
+    app.use((req, res) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        nextHandler(req, res)
+    })
 
     nextApp.prepare().then(() => {
         payload.logger.info("Next js Started")
