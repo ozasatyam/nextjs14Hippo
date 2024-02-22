@@ -43,7 +43,7 @@ function Page() {
       toast.success(`Sign in successfully`);
       router.refresh();
       if (oririg) {
-        router.push(`/${origin}`);
+        router.push(`/${oririg}`);
         return;
       }
       if (isSeller) {

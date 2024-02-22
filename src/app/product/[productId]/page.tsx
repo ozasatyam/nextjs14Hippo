@@ -46,10 +46,8 @@ async function page({ params }: PageProps) {
   const [product] = products;
 
   const validUrls = product.images
-    .filter(Boolean)
-    .map(({ image }) =>
-      typeof image === "string" ? image : image?.url
-    ) as string[];
+    .map(({ image }) => (typeof image === "string" ? image : image?.url))
+    .filter(Boolean) as string[];
 
   if (!product) return notFound();
 

@@ -8,7 +8,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "https://uikitperches.onrender.com",
+        hostname: "uikitperches.onrender.com",
       },
     ],
   },
